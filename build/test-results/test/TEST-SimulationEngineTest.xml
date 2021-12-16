@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="SimulationEngineTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2021-12-15T09:32:54" hostname="DESKTOP-90CQ02L" time="0.17">
+  <properties/>
+  <testcase name="test1()" classname="SimulationEngineTest" time="0.163"/>
+  <testcase name="test2()" classname="SimulationEngineTest" time="0.001"/>
+  <testcase name="test3()" classname="SimulationEngineTest" time="0.001"/>
+  <testcase name="test4()" classname="SimulationEngineTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
