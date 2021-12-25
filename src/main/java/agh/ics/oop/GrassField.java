@@ -1,23 +1,14 @@
 package agh.ics.oop;
 
 public class GrassField extends AbstractWorldMap {
-    protected final MapBoundary mapBoundary;
-    private final int randomMax;
+    private final int Boundary;
 
-    public GrassField(int n) {
+    public GrassField(int n, int boundary) {
         super();
-
-        mapBoundary = new MapBoundary();
-        randomMax = (int) Math.sqrt(n*10);
-
+        this.Boundary = boundary;
         for (int i = 0; i < n; i++) {
             placeGrass();
         }
-    }
-
-    @Override
-    public Vector2d[] getDrawBoundaries() {
-        return mapBoundary.getBoundaries();
     }
 
     @Override
@@ -29,9 +20,6 @@ public class GrassField extends AbstractWorldMap {
             throw new IllegalArgumentException("Cannot place animal at" + position);
         }
 
-        mapBoundary.place(animal);
-        animal.addObserver(mapBoundary);
-
         mapElements.put(position, animal);
         animal.addObserver(this);
         return true;
@@ -39,11 +27,11 @@ public class GrassField extends AbstractWorldMap {
 
     public void placeGrass() {
         for (int i = 0; i < 100; i++) {
-            Vector2d randomPosition = new Vector2d( (int) (Math.random()*randomMax), (int) (Math.random()*randomMax));
+            Vector2d randomPosition = new Vector2d( (int) (Math.random()*Boundary), (int) (Math.random()*Boundary));
             if (objectAt(randomPosition) == null) {
                 Grass grass = new Grass(randomPosition);
                 mapElements.put(randomPosition, grass);
-                mapBoundary.place(grass);
+//                mapBoundary.place(grass);
                 return;
             }
         }

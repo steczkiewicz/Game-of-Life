@@ -11,14 +11,13 @@ import javafx.scene.layout.VBox;
 import java.io.FileNotFoundException;
 
 public class GuiElementBox {
-
     private Image img;
     private String labelText;
 
     public GuiElementBox(IMapElement element) {
         try {
             this.img = element.getImage();
-            this.labelText = element instanceof Animal ? "Z " + element.getPosition() : "Trawa";
+            this.labelText = element instanceof Animal ? "Z " + element.getPosition() + " " + ((Animal) element).getEnergy() : "Trawa";
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
             this.img = null;

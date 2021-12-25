@@ -9,11 +9,6 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    protected Vector2d[] getDrawBoundaries() {
-        return new Vector2d[]{lowerLeftBound, upperRightBound};
-    }
-
-    @Override
     public boolean canMoveTo(Vector2d position) {
         return (super.canMoveTo(position) &&
                 position.follows(lowerLeftBound)

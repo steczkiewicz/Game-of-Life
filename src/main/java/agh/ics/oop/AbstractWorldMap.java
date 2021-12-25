@@ -6,19 +6,10 @@ import java.util.HashMap;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected final HashMap<Vector2d, IMapElement> mapElements;
-    private final MapVisualizer mapVisualizer;
 
     public AbstractWorldMap() {
         mapElements = new HashMap<>();
-        mapVisualizer = new MapVisualizer(this);
     }
-
-    public String toString() {
-        Vector2d[] boundaries = this.getDrawBoundaries();
-        return mapVisualizer.draw(boundaries[0], boundaries[1]);
-    }
-
-    abstract protected Vector2d[] getDrawBoundaries();
 
     public boolean canMoveTo(Vector2d position) {
         return !(objectAt(position) instanceof Animal);

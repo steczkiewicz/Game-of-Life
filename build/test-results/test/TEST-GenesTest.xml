@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="GenesTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-12-22T21:35:17" hostname="DESKTOP-90CQ02L" time="0.016">
+  <properties/>
+  <testcase name="genesTest()" classname="GenesTest" time="0.016"/>
+  <system-out><![CDATA[[0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7, 7]
+[0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

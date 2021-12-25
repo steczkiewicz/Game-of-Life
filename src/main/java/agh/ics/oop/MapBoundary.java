@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import java.util.*;
 
+
+//chyba useless klasa?
 public class MapBoundary implements IPositionChangeObserver {
     protected final TreeSet<IMapElement> elementsX, elementsY;
     protected final ElementComparator comparatorX, comparatorY;
