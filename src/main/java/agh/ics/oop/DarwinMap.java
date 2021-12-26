@@ -1,10 +1,11 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class DarwinMap extends AbstractWorldMap {
-    private final int Boundary = 100;
+public class DarwinMap implements IPositionChangeObserver {
+    private final int Boundary = 20;
     public HashMap<Vector2d, Grass> grassHashMap = new HashMap<>();
     public HashMap<Vector2d, Animal> animalsHashMap = new HashMap<>();
     public LinkedList<Animal> animalsList = new LinkedList<>();
@@ -12,7 +13,7 @@ public class DarwinMap extends AbstractWorldMap {
 
     public DarwinMap() {
 //        this.Boundary = boundary;
-        for (int i=0;i<5;i++) {
+        for (int i = 0; i < 10; i++) {
             addNewAnimal();
             addNewGrass();
         }
@@ -31,16 +32,17 @@ public class DarwinMap extends AbstractWorldMap {
 
     public void addNewAnimal() {
         while (true) {
-            Vector2d newAnimalPos = new Vector2d((int) (Math.random() * 100), (int) (Math.random() * 30));
+            Vector2d newAnimalPos = new Vector2d((int) (Math.random() * 20), (int) (Math.random() * 20));
             if (objectAt(newAnimalPos) == null) {
-                Animal animal = new Animal(this,newAnimalPos);
-                place(animal);
-                this.animalsHashMap.put(newAnimalPos,animal);
+                Animal animal = new Animal(this, newAnimalPos);
+                animal.addObserver(this);
+                this.animalsHashMap.put(newAnimalPos, animal);
                 this.animalsList.push(animal);
                 return;
             }
         }
     }
+
 
     public void moveAnimals() {
         for (Animal animal : this.animalsList) {
@@ -61,16 +63,18 @@ public class DarwinMap extends AbstractWorldMap {
         }
     }
 
-//    narazie sie nie beda rozmnazac essa?
 //    public void breedAnimals() {
-//        for (Vector2d field : animals.keySet()) {
-//
+//        for (Vector2d field : animalsHashMap.keySet()) {
+//            ArrayList<Animal> animals = new ArrayList<>();
+//            animals.add(animalsHashMap.get(field));
+//            if (animals.size() > 1);
 //        }
+//
 //    }
 
     public void addNewGrass() {
-        while (true) {
-            Vector2d jungleGrassPos = new Vector2d((int) (Math.random() * 10) + 45, (int) (Math.random() * 10) + 10);
+        for (int i = 0; i < 100; i++) {
+            Vector2d jungleGrassPos = new Vector2d((int) (Math.random() * 20), (int) (Math.random() * 20));
             if (objectAt(jungleGrassPos) == null) {
                 Grass grass = new Grass(jungleGrassPos);
                 this.grassHashMap.put(jungleGrassPos, grass);
@@ -78,8 +82,8 @@ public class DarwinMap extends AbstractWorldMap {
                 break;
             }
         }
-        while (true) {
-            Vector2d normalGrassPos = new Vector2d((int) (Math.random() * 100), (int) (Math.random() * 30));
+        for (int i = 0; i < 100; i++) {
+            Vector2d normalGrassPos = new Vector2d((int) (Math.random() * 20), (int) (Math.random() * 20));
             if (objectAt(normalGrassPos) == null) {
                 Grass grass = new Grass(normalGrassPos);
                 this.grassHashMap.put(normalGrassPos, grass);
@@ -95,38 +99,18 @@ public class DarwinMap extends AbstractWorldMap {
         }
     }
 
-    public void placeGrass() {
-        for (int i = 0; i < 100; i++) {
-            Vector2d randomPosition = new Vector2d((int) (Math.random() * Boundary), (int) (Math.random() * Boundary));
-            if (objectAt(randomPosition) == null) {
-                Grass grass = new Grass(randomPosition);
-                mapElements.put(randomPosition, grass);
-                return;
-            }
+    public Object objectAt(Vector2d position) {
+        if (animalsHashMap.get(position) != null) {
+            return animalsHashMap.get(position);
         }
-        throw new IllegalStateException("No free space for grass");
+        if (grassHashMap.get(position) != null) {
+            return grassHashMap.get(position);
+        }
+        return null;
     }
 
-    @Override
-    public boolean place(Animal animal) throws IllegalArgumentException {
-        Vector2d position = animal.getPosition();
-        if (objectAt(position) instanceof Grass) {
-            placeGrass();
-        } else if (objectAt(position) instanceof Animal) {
-            throw new IllegalArgumentException("Cannot place animal at" + position);
-        }
-
-        mapElements.put(position, animal);
-        animal.addObserver(this);
-        return true;
-    }
-
-    @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        if (objectAt(oldPosition) instanceof Animal && objectAt(newPosition) instanceof Grass) {
-            placeGrass();
-        }
-        mapElements.put(newPosition, (IMapElement) objectAt(oldPosition));
-        mapElements.remove(oldPosition);
+        animalsHashMap.put(newPosition, (Animal) objectAt(oldPosition));
+        animalsHashMap.remove(oldPosition);
     }
 }

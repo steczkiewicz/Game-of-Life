@@ -11,10 +11,10 @@ public class Animal implements IMapElement{
     public DNA DNA;
     private MapDirection ori;
     private Vector2d pos;
-    private final IWorldMap map;
+    private final DarwinMap map;
     private final ArrayList<IPositionChangeObserver> observers;
 
-    public Animal(IWorldMap map, Vector2d initialPosition){
+    public Animal(DarwinMap map, Vector2d initialPosition){
         this.energy = 20;
         this.map = map;
         this.ori = MapDirection.NORTH;
@@ -56,20 +56,15 @@ public class Animal implements IMapElement{
                 case RIGHT -> this.ori = this.ori.next();
                 case FORWARD -> {
                     Vector2d new_pos = this.pos.add(this.ori.toUnitVector());
-                    if (this.map.canMoveTo(new_pos)) {
                         this.positionChanged(this.pos, new_pos);
                         this.pos = new_pos;
-                    }
                 }
                 case BACKWARD -> {
                     Vector2d new_pos = this.pos.subtract(this.ori.toUnitVector());
-                    if (this.map.canMoveTo(new_pos)) {
                         this.positionChanged(this.pos, new_pos);
                         this.pos = new_pos;
-                    }
                 }
             }
-            this.energy -= 1;
         }
     }
 
@@ -89,7 +84,7 @@ public class Animal implements IMapElement{
     }
 
     public String toString() {
-        return this.getPosition().toString();
+        return this.getPosition().toString() + ' ' + this.energy;
     }
 
     public void addObserver(IPositionChangeObserver observer){

@@ -17,18 +17,16 @@ import javafx.stage.Stage;
 
 
 public class App extends Application implements IAnimalObserver {
-    private DarwinMap map;
     private GridPane grid;
     private SimulationEngine engine;
 
     //starting parametres
-    public int StartingGrass;
-    public int StartingEnergy;
-    public int StartingAnimals;
-    public int StartingMapSize = 100;
-    public int StartingJungleSize;
-    public int energyGain;
-    public boolean IsMagical;
+    public int width = 100;
+    public int height;
+    public int startEnergy;
+    public int moveEnergy;
+    public int plantEnergy;
+    public int jungleRatio;
 
     public static void main(String[] args) {
         launch(args);
@@ -38,8 +36,7 @@ public class App extends Application implements IAnimalObserver {
     public void init() throws Exception {
         super.init();
         Vector2d[] positions = {new Vector2d(4, 5), new Vector2d(3,8)};
-        this.map = new DarwinMap();
-        this.engine = new SimulationEngine(map, positions);
+        this.engine = new SimulationEngine();
         this.engine.addObserver(this);
         this.grid = new GridPane();
     }
@@ -73,8 +70,8 @@ public class App extends Application implements IAnimalObserver {
 
     public void draw() {
         this.grid.getChildren().clear();
-        drawBase(grid, 800/StartingMapSize);
-        drawFill(grid, map);
+        drawBase(grid, 800/width);
+//        drawFill(grid, map);
     }
 
     public void drawBase(GridPane grid, int grid_size) {
@@ -83,33 +80,33 @@ public class App extends Application implements IAnimalObserver {
         grid.setGridLinesVisible(false);
         grid.setGridLinesVisible(true);
 
-        for (int i = 0; i <= StartingMapSize; i++) {
+        for (int i = 0; i <= width; i++) {
             Label label = new Label(String.valueOf(i));
-            grid.add(label, i+1, StartingMapSize+1);
+            grid.add(label, i+1, width+1);
             GridPane.setHalignment(label, HPos.CENTER);
             grid.getColumnConstraints().add(new ColumnConstraints(grid_size));
         }
-        for (int i = 0; i <= StartingMapSize; i++) {
-            Label label = new Label(String.valueOf(StartingMapSize-i));
+        for (int i = 0; i <= width; i++) {
+            Label label = new Label(String.valueOf(width-i));
             grid.add(label, 0, i);
             GridPane.setHalignment(label, HPos.CENTER);
             grid.getRowConstraints().add(new RowConstraints(grid_size));
         }
 
         Label xylabel = new Label("y/x");
-        grid.add(xylabel, 0, StartingMapSize+1);
+        grid.add(xylabel, 0, width+1);
         GridPane.setHalignment(xylabel, HPos.CENTER);
         grid.getRowConstraints().add(new RowConstraints(grid_size));
         grid.getColumnConstraints().add(new ColumnConstraints(grid_size));
     }
 
     public void drawFill(GridPane grid, DarwinMap map) {
-        for (int i = 0; i <= StartingMapSize; i++) {
-            for (int j = 0; j <= StartingMapSize; j++) {
+        for (int i = 0; i <= width; i++) {
+            for (int j = 0; j <= width; j++) {
                 Object object = map.objectAt(new Vector2d(i, j));
                 if (object != null) {
                     grid.add(new GuiElementBox((IMapElement) object).mapElementView(),
-                            i+1, StartingMapSize-j);
+                            i+1, width-j);
                 }
             }
         }
