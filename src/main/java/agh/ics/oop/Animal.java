@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Animal implements IMapElement{
     public int energy;
-    public DNA DNA;
+    public DNA dna;
     private MapDirection ori;
     private Vector2d pos;
     private final DarwinMap map;
@@ -20,7 +20,7 @@ public class Animal implements IMapElement{
         this.ori = MapDirection.NORTH;
         this.pos = initialPosition;
         this.observers = new ArrayList<>();
-        this.DNA = new DNA();
+        this.dna = new DNA();
     }
 
     public boolean isDead() {
@@ -69,7 +69,7 @@ public class Animal implements IMapElement{
     }
 
     public void rotate() {
-        int n = this.DNA.returnRandomGene();
+        int n = this.dna.returnRandomGene();
         for (int i=0; i<n; i++){
             this.ori = this.ori.next();
         }
@@ -78,9 +78,9 @@ public class Animal implements IMapElement{
     public void inheritGenes(Animal parent1, Animal parent2) {
         int esum = parent1.energy + parent2.energy;
         if (parent1.energy / esum * 32 >= 0)
-            System.arraycopy(parent1.DNA.genesArray, 0, this.DNA.genesArray, 0, parent1.energy / esum * 32);
+            System.arraycopy(parent1.dna.genesArray, 0, this.dna.genesArray, 0, parent1.energy / esum * 32);
         if (32 - parent1.energy / esum * 32 >= 0)
-            System.arraycopy(parent2.DNA.genesArray, parent1.energy / esum * 32, this.DNA.genesArray, parent1.energy / esum * 32, 32 - parent1.energy / esum * 32);
+            System.arraycopy(parent2.dna.genesArray, parent1.energy / esum * 32, this.dna.genesArray, parent1.energy / esum * 32, 32 - parent1.energy / esum * 32);
     }
 
     public String toString() {

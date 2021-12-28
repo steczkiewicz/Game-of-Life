@@ -3,7 +3,6 @@ package agh.ics.oop;
 import java.util.ArrayList;
 
 public class SimulationEngine implements Runnable {
-    private final ArrayList<Animal> animals = new ArrayList<>();
     private final ArrayList<IAnimalObserver> observers = new ArrayList<>();
     private DarwinMap map = new DarwinMap();
 
@@ -22,6 +21,7 @@ public class SimulationEngine implements Runnable {
             map.removeDead();
             map.moveAnimals();
             map.eatGrass();
+//            map.breedAnimals();
             map.addNewGrass();
             map.changeEnergy();
             System.out.println("zwierzaki: " + map.animalsHashMap);

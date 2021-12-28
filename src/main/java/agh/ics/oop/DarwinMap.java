@@ -5,15 +5,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class DarwinMap implements IPositionChangeObserver {
-    private final int Boundary = 20;
     public HashMap<Vector2d, Grass> grassHashMap = new HashMap<>();
     public HashMap<Vector2d, Animal> animalsHashMap = new HashMap<>();
     public LinkedList<Animal> animalsList = new LinkedList<>();
     public LinkedList<Grass> grassList = new LinkedList<>();
 
     public DarwinMap() {
-//        this.Boundary = boundary;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             addNewAnimal();
             addNewGrass();
         }
@@ -23,7 +21,7 @@ public class DarwinMap implements IPositionChangeObserver {
         for (int i = 0; i < this.animalsList.size(); i++) {
             Animal animal = this.animalsList.get(i);
             if (animal.isDead()) {
-                //nw czy tu cos jeszcze nie trzeba dodac xd
+                //nw czy tu cos jeszcze nie trzeba dodac
                 this.animalsList.remove(animal);
                 this.animalsHashMap.remove(animal.getPosition());
             }
@@ -63,13 +61,20 @@ public class DarwinMap implements IPositionChangeObserver {
         }
     }
 
+//    do poprawy
 //    public void breedAnimals() {
 //        for (Vector2d field : animalsHashMap.keySet()) {
-//            ArrayList<Animal> animals = new ArrayList<>();
-//            animals.add(animalsHashMap.get(field));
-//            if (animals.size() > 1);
+//            LinkedList<Animal> animals = new LinkedList<>();
+//            for(Animal animal : animalsList) {
+//                if(animal.getPosition().equals(field)) {
+//                    animals.add(animal);
+//                }
+//            }
+//            if (animals.size() > 1) {
+//                System.out.println("TOTALNA ESSSSSA");
+//                System.out.println(animals);
+//            }
 //        }
-//
 //    }
 
     public void addNewGrass() {
