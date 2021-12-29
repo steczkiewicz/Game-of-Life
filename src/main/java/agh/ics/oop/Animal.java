@@ -4,65 +4,53 @@ import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
-public class Animal implements IMapElement{
+public class Animal implements IMapElement {
     public int energy;
     public DNA dna;
     private MapDirection ori;
     private Vector2d pos;
-    private final DarwinMap map;
-    private final ArrayList<IPositionChangeObserver> observers;
 
-    public Animal(DarwinMap map, Vector2d initialPosition){
-        this.energy = 20;
-        this.map = map;
+    public Animal(int startingEnergy, Vector2d initialPosition) {
+        this.energy = startingEnergy;
         this.ori = MapDirection.NORTH;
         this.pos = initialPosition;
-        this.observers = new ArrayList<>();
         this.dna = new DNA();
+        this.rotate();
     }
 
     public boolean isDead() {
         return this.energy <= 0;
     }
 
-    public int getEnergy() {return energy;}
+    public int getEnergy() {
+        return energy;
+    }
 
-    public MapDirection getOrientation() { return ori; }
+    public MapDirection getOrientation() {
+        return ori;
+    }
 
     @Override
-    public Vector2d getPosition() { return pos; }
+    public Vector2d getPosition() {
+        return pos;
+    }
 
     @Override
     public Image getImage() throws FileNotFoundException {
-        return new Image(new FileInputStream("src/main/resources/" +
-                switch (this.ori) {
-                    case NORTH -> "up.png";
-                    case NORTHEAST -> "northeast.png";
-                    case EAST -> "right.png";
-                    case SOUTHEAST -> "southeast.png";
-                    case SOUTH -> "down.png";
-                    case SOUTHWEST -> "southwest.png";
-                    case WEST -> "left.png";
-                    case NORTHWEST -> "northwest.png";
-                }));
+        return new Image(new FileInputStream("src/main/resources/animal.png"));
     }
 
-    public void move(MoveDirection direction){
+    public void move(MoveDirection direction) {
         if (this.energy > 0) {
             switch (direction) {
                 case LEFT -> this.ori = this.ori.previous();
                 case RIGHT -> this.ori = this.ori.next();
                 case FORWARD -> {
-                    Vector2d new_pos = this.pos.add(this.ori.toUnitVector());
-                        this.positionChanged(this.pos, new_pos);
-                        this.pos = new_pos;
+                    this.pos = this.pos.add(this.ori.toUnitVector());
                 }
                 case BACKWARD -> {
-                    Vector2d new_pos = this.pos.subtract(this.ori.toUnitVector());
-                        this.positionChanged(this.pos, new_pos);
-                        this.pos = new_pos;
+                    this.pos = this.pos.subtract(this.ori.toUnitVector());
                 }
             }
         }
@@ -70,7 +58,7 @@ public class Animal implements IMapElement{
 
     public void rotate() {
         int n = this.dna.returnRandomGene();
-        for (int i=0; i<n; i++){
+        for (int i = 0; i < n; i++) {
             this.ori = this.ori.next();
         }
     }
@@ -85,18 +73,6 @@ public class Animal implements IMapElement{
 
     public String toString() {
         return this.getPosition().toString() + ' ' + this.energy;
-    }
-
-    public void addObserver(IPositionChangeObserver observer){
-        observers.add(observer);
-    }
-    public void removeObserver(IPositionChangeObserver observer){
-        observers.remove(observer);
-    }
-    private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
-        for (IPositionChangeObserver observer : observers) {
-            observer.positionChanged(oldPosition, newPosition);
-        }
     }
 
 }

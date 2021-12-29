@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class DNA {
     public int[] genesArray;
+
     public DNA() {
         this.genesArray = new int[32];
         getRandomGenes();

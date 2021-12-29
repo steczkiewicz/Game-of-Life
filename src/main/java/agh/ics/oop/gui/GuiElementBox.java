@@ -12,30 +12,25 @@ import java.io.FileNotFoundException;
 
 public class GuiElementBox {
     private Image img;
-    private String labelText;
 
     public GuiElementBox(IMapElement element) {
         try {
             this.img = element.getImage();
-            this.labelText = element instanceof Animal ? "Z " + element.getPosition() + " " + ((Animal) element).getEnergy() : "Trawa";
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
             this.img = null;
-            this.labelText = "";
         }
     }
 
     public VBox mapElementView() {
-        Label elementLabel = new Label(labelText);
         ImageView elementView = new ImageView(img);
         VBox elementVBox = new VBox();
 
         elementView.setFitWidth(20);
         elementView.setFitHeight(20);
 
-        elementVBox.getChildren().addAll(elementView, elementLabel);
+        elementVBox.getChildren().addAll(elementView);
         elementVBox.setAlignment(Pos.CENTER);
-
         return elementVBox;
 
     }
