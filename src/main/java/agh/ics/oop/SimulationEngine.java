@@ -13,7 +13,7 @@ public class SimulationEngine implements Runnable {
         int i = 0;
         while (this.map.getAnimalsNumber() > 0) {
             try {
-                System.out.println("Day: " + i + 1);
+                System.out.println("Day: " + (i + 1));
                 map.removeDead();
                 map.moveAnimals();
                 map.eatGrass();
